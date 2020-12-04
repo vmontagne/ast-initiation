@@ -12,6 +12,9 @@ const ast = parse(code);
 traverse(ast, {
   FunctionDeclaration: (path) => {
     path.node.id.name = _.camelCase(path.node.id.name);
+    path.node.params.forEach((param) => {
+      path.scope.rename(param.name, _.camelCase(param.name));
+    });
   },
   VariableDeclarator: (path) => {
     path.scope.rename(path.node.id.name, _.camelCase(path.node.id.name));
